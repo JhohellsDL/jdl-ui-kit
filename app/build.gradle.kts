@@ -5,6 +5,13 @@ plugins {
     id("maven-publish")
 }
 
+val GITHUB_OWNER = "JhohellsDL"
+val GITHUB_REPO = "jdl-ui-kit"
+val LIBRARY_GROUP = "com.jdlstudios.uikit"
+val LIBRARY_ARTIFACT_ID = "jdl-ui-kit"
+val LIBRARY_VERSION = "1.0.1"
+
+
 android {
     namespace = "com.jdlstudios.jdl_ui_kit"
     compileSdk = 35
@@ -35,21 +42,31 @@ android {
     }
 }
 
-afterEvaluate { // Esto asegura que el componente 'release' esté disponible
+afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("release") {
-                // Define tus coordenadas únicas para la librería
-                groupId = "com.jdlstudios.uikit"        // Tu organización/grupo (ej. dominio inverso)
-                artifactId = "jdl-ui-kit"               // El nombre de tu artefacto de librería
-                version = "1.0.0"                       // La versión de este lanzamiento específico
+                groupId = LIBRARY_GROUP
+                artifactId = LIBRARY_ARTIFACT_ID
+                version = LIBRARY_VERSION
 
-                // Especifica que estás publicando la variante 'release' de tu librería Android
+
+
                 from(components["release"])
             }
         }
         repositories {
-            mavenLocal() // Publica en tu repositorio Maven local (~/.m2/repository o ~/.gradle/caches/modules-2/files-2.1)
+            mavenLocal()
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/$GITHUB_OWNER/$GITHUB_REPO")
+                credentials {
+                    username = project.findProperty("gpr.user") as String?
+                        ?: System.getenv("USERNAME_GITHUB")
+                    password = project.findProperty("gpr.token") as String?
+                        ?: System.getenv("TOKEN_GITHUB")
+                }
+            }
         }
     }
 }
