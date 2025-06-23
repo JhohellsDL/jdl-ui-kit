@@ -38,8 +38,8 @@ fun PrimaryButton(
     enabled: Boolean = true,
     shape: Shape = ButtonDefaults.shape, // Forma por defecto de Material
     colors: ButtonColors = ButtonDefaults.buttonColors(
-        containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.onPrimary
+        containerColor = MaterialTheme.colorScheme.secondary,
+        contentColor = MaterialTheme.colorScheme.onSecondary
     ),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     text: String? = null,
