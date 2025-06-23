@@ -2,7 +2,15 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("maven-publish")
 }
+
+val GITHUB_OWNER = "JhohellsDL"
+val GITHUB_REPO = "jdl-ui-kit"
+val LIBRARY_GROUP = "com.jdlstudios.uikit"
+val LIBRARY_ARTIFACT_ID = "jdl-ui-kit"
+val LIBRARY_VERSION = "1.0.1"
+
 
 android {
     namespace = "com.jdlstudios.jdl_ui_kit"
@@ -31,6 +39,35 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                groupId = LIBRARY_GROUP
+                artifactId = LIBRARY_ARTIFACT_ID
+                version = LIBRARY_VERSION
+
+
+
+                from(components["release"])
+            }
+        }
+        repositories {
+            mavenLocal()
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/$GITHUB_OWNER/$GITHUB_REPO")
+                credentials {
+                    username = project.findProperty("gpr.user") as String?
+                        ?: System.getenv("USERNAME_GITHUB")
+                    password = project.findProperty("gpr.token") as String?
+                        ?: System.getenv("TOKEN_GITHUB")
+                }
+            }
+        }
     }
 }
 
