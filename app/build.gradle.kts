@@ -9,7 +9,7 @@ val GITHUB_OWNER = "JhohellsDL"
 val GITHUB_REPO = "jdl-ui-kit"
 val LIBRARY_GROUP = "com.jdlstudios.uikit"
 val LIBRARY_ARTIFACT_ID = "jdl-ui-kit"
-val LIBRARY_VERSION = "1.0.0"
+val LIBRARY_VERSION = "1.0.1"
 
 
 android {
