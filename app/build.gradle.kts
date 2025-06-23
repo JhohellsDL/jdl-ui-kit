@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("maven-publish")
 }
 
 android {
@@ -31,6 +32,25 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+}
+
+afterEvaluate { // Esto asegura que el componente 'release' esté disponible
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                // Define tus coordenadas únicas para la librería
+                groupId = "com.jdlstudios.uikit"        // Tu organización/grupo (ej. dominio inverso)
+                artifactId = "jdl-ui-kit"               // El nombre de tu artefacto de librería
+                version = "1.0.0"                       // La versión de este lanzamiento específico
+
+                // Especifica que estás publicando la variante 'release' de tu librería Android
+                from(components["release"])
+            }
+        }
+        repositories {
+            mavenLocal() // Publica en tu repositorio Maven local (~/.m2/repository o ~/.gradle/caches/modules-2/files-2.1)
+        }
     }
 }
 
