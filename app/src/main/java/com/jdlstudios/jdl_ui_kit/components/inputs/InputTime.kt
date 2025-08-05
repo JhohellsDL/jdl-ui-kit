@@ -1,6 +1,5 @@
 package com.jdlstudios.jdl_ui_kit.components.inputs
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,14 +30,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Input(
+fun InputTime(
     value: String,
     onValueChange: (String) -> Unit,
     textTime: String = "Time"
@@ -47,7 +45,6 @@ fun Input(
     val focusManager = LocalFocusManager.current
     Box(
         modifier = Modifier
-            .fillMaxSize()
             .pointerInput(Unit) {
                 detectTapGestures(onTap = {
                     focusManager.clearFocus()
@@ -56,7 +53,6 @@ fun Input(
     ) {
         Column(
             modifier = Modifier
-                .padding(32.dp)
                 .wrapContentWidth()
         ) {
             TextField(
@@ -76,10 +72,11 @@ fun Input(
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = "00",
-                        color = Color.White,
+                        color = Color(0xFF727679),
                         style = TextStyle(
                             fontSize = 20.sp,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold
                         ),
                     )
                 },
@@ -89,7 +86,6 @@ fun Input(
                 ),
                 keyboardActions = KeyboardActions(
                     onDone = {
-                        println("Done pressed with value: $value")
                         focusManager.clearFocus()
                     }
                 ),
@@ -130,8 +126,8 @@ fun Input(
 @Composable
 @Preview(showBackground = true, backgroundColor = 0xFF283)
 fun InputPreview() {
-    var text by remember { mutableStateOf("03") }
-    Input(
+    var text by remember { mutableStateOf("") }
+    InputTime(
         value = text,
         textTime = "Horas",
         onValueChange = { newValue ->
